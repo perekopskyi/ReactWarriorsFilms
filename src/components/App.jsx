@@ -1,7 +1,27 @@
-import React from "react";
+import React, { Component } from "react";
+import { moviesData } from '../moviesData';
 
-function App() {
-  return <div>Hello ReactWarriors!</div>;
+class App extends Component {
+
+  state = {
+    movies: moviesData
+  }
+
+  render() {
+
+    const { movies } = this.state;
+
+
+    console.log(movies);
+    return (
+      <div>
+        {movies.map(movie => {
+          return <p key={movie.id} >{movie.title}</p>
+        })}
+      </div>
+    );
+  }
+  
 }
 
 export default App;
