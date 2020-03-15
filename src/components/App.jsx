@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-// import { moviesData } from '../moviesData';
 import MovieItem from "./movieItem";
-import { Container, Row, Col, ButtonGroup, Button, Pagination } from 'reactstrap';
+import { Container, Row, Col, ButtonGroup, Button } from 'reactstrap';
 import MoviesWillWatch from "./moviesWillWatch";
 import { API_URL, API_KEY_3 } from '../utils/api';
 import MovieTabs from "./MovieTabs";
@@ -22,7 +21,6 @@ export default class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevSate) {
-    console.log('update');
     const { sort_by, page } = this.state;
     
     if (prevSate.sort_by !== sort_by ||
@@ -34,10 +32,10 @@ export default class App extends Component {
   getMovies = () => {
     const { sort_by, page } = this.state;
     const type = '/discover/movie';
+
     fetch(`${API_URL}${type}?api_key=${API_KEY_3}&sort_by=${sort_by}&page=${page}`)
       .then(response => response.json())
       .then(result => {
-        console.log(result);
         this.setState({
           movies: result.results,
           pages: result.total_pages
@@ -46,11 +44,13 @@ export default class App extends Component {
   }
 
   removeMovie = (movie) => {
-    const { movies } = this.state;
+    const { movies, moviesWillWatch } = this.state;
     const updateMovies = movies.filter(item => item.id !== movie.id);
+    const updateMoviesWillWatch = moviesWillWatch.filter(item => item.id !== movie.id);
 
     this.setState({
-      movies: updateMovies
+      movies: updateMovies,
+      moviesWillWatch: updateMoviesWillWatch
     })
   }
 
@@ -112,7 +112,6 @@ export default class App extends Component {
           />
           <Col sm="9">
             <Row>
-              
               {movies.map(movie =>
                 <Col md="6" className="mb-4" key={movie.id}>
                   <MovieItem

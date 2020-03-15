@@ -1,38 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
-class MoviesWillWatch extends Component {
+const MoviesWillWatch = ({ moviesWillWatch }) => {
 
-  state = {
-    
-  }
-
-
-  render() {
-    const { moviesWillWatch } = this.props;
-    console.log('moviesWillWatch: ', moviesWillWatch);
-
-    const titles = moviesWillWatch.map(movie => {
-      return (
-        <ListGroupItem>
-          <div className="d-flex justify-content-between">
-            {movie.title} <span style={{color: 'red'}}>{movie.vote_average}</span>
-          </div>          
-        </ListGroupItem>
-      )
-    })
-
+  const titles = moviesWillWatch.map(movie => {
     return (
-      <>
-        <h4>
-          Will Watch: {moviesWillWatch.length} {moviesWillWatch.length === 1 ? 'movie' : 'movies'}
-        </h4>
-        <ListGroup>
-            {titles}
-        </ListGroup>
-      </>
-    );
-  }
+      <ListGroupItem>
+        <div className="d-flex justify-content-between">
+          {movie.title} <span style={{ color: 'red' }}>{movie.vote_average}</span>
+        </div>
+      </ListGroupItem>
+    )
+  })
+
+  return (
+    <>
+      <h4>
+        Will Watch: {moviesWillWatch.length} {moviesWillWatch.length === 1 ? 'movie' : 'movies'}
+      </h4>
+      <ListGroup>
+        {titles}
+      </ListGroup>
+    </>
+  );
 }
+
 
 export default MoviesWillWatch;
