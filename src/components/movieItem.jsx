@@ -1,31 +1,27 @@
 import React, { Component } from 'react';
 import { Button, Card, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';
-import img from '../img/unnamed.jpg';
+import defaultPoster from '../images/defaultPoster.jpg';
 
 export default class MovieItem extends Component {
 
   state = {
     willWatch: false
   }
+
+  getImageSrc = () => {
+    const { movie } = this.props;
+
+    const path = movie.backdrop_path || movie.poster_path;
+    return path ? `https://image.tmdb.org/t/p/w500${path}` : defaultPoster;
+  }
   
   render() {
     const { movie, removeMovie, addMovieToWillWatch, removeMovieFromWillWatch } = this.props;
     const { willWatch } = this.state;
 
-    let imgSource;
-    if (movie.backdrop_path || movie.poster_path) {
-      imgSource = `https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path}`;
-    } else {
-      imgSource = img;
-    }
-
     return (
       <Card>
-        <CardImg
-          top
-          src={imgSource}
-          alt="Card image cap"
-        />
+        <CardImg top src={this.getImageSrc()} alt="Card image cap" />
         <CardBody>
           <CardTitle>{movie.title}</CardTitle>
           <CardText className="d-flex justify-content-between align-items-center">

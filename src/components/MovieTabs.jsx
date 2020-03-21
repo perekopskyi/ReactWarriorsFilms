@@ -1,21 +1,22 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Row, ButtonGroup, Button } from 'reactstrap';
 
-export default class MovieTabs extends Component {
+export default class MovieTabs extends PureComponent {
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.sort_by !== this.props.sort_by) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  /* For React.Component */
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextProps.sort_by !== this.props.sort_by) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   render() {
     const { sort_by, updateSortBy } = this.props;
 
     const handleClick = value => () => updateSortBy(value);
-    const getClassLink = value => sort_by === value ? false : true;
+    const getClassLink = value => sort_by !== value;
 
     return (
       <Row className="ml-3">

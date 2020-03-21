@@ -3,7 +3,7 @@ import MovieItem from "./movieItem";
 import { Container, Row, Col, ButtonGroup, Button } from 'reactstrap';
 import MoviesWillWatch from "./moviesWillWatch";
 import { API_URL, API_KEY_3 } from '../utils/api';
-import MovieTabs from "./MovieTabs";
+import MovieTabs from "./movieTabs";
 
 
 export default class App extends Component {
@@ -13,7 +13,7 @@ export default class App extends Component {
     moviesWillWatch: [],
     sort_by: 'popularity.desc',
     page: 1,
-    pages: ''
+    total_pages: ''
   }
 
   componentDidMount() {
@@ -38,7 +38,7 @@ export default class App extends Component {
       .then(result => {
         this.setState({
           movies: result.results,
-          pages: result.total_pages
+          total_pages: result.total_pages
         });
       });
   }
@@ -72,21 +72,16 @@ export default class App extends Component {
     })
   }
 
-  updateSortBy = category => {
+  updateSortBy = sort_by => {
     this.setState({
-      sort_by: category
+      sort_by: sort_by
     })
   }
 
-  moveToPrewPage = () => {
-    console.log('page: ', this.state.page);
-    if (this.state.page === 1) {
-      return;
-    } else {
-      this.setState({
-        page: this.state.page - 1
-      })
-    }
+  moveToPrevPage = () => {
+    this.setState({
+      page: this.state.page - 1
+    })
   }
 
   moveToNextPage = () => {
@@ -101,7 +96,7 @@ export default class App extends Component {
 
   render() {
 
-    const { movies, moviesWillWatch, sort_by, page, pages } = this.state;
+    const { movies, moviesWillWatch, sort_by, page, total_pages } = this.state;
 
     return (
       <Container className="mt-4">
@@ -133,19 +128,21 @@ export default class App extends Component {
             <Button
               color="primary"
               outline
-              onClick={this.moveToPrewPage}
+              onClick={this.moveToPrevPage}
+              disabled={this.state.page === 1}
             >
-              Prew
+              Prev
             </Button>
             <Button
               color="primary"
               outline
               onClick={this.moveToNextPage}
+              disabled={this.state.page === this.state.total_pages}
             >
               Next
             </Button>
           </ButtonGroup>
-          <div className="ml-4">Page Count: {page}/{pages}</div>
+          <div className="ml-4">Page Count: {page}/{total_pages}</div>
         </Row>
       </Container>
     );
